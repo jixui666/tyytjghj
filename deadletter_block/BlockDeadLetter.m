@@ -29,7 +29,7 @@ static BOOL ATIsDeadLetter(NSString *url) {
 }
 
 static NSString *ATLRewriteIfNeeded(NSString *url) {
-    if (!URLIsDeadLetter(url)) return url;
+    if (!ATIsDeadLetter(url)) return url;
     NSLog(@"[BlockDeadLetter] rewrite %@ -> %@", url, kRedirectURL);
     return kRedirectURL;
 }
@@ -78,7 +78,7 @@ static void ATSwizzleInstanceMethod(Class cls, SEL origSel, SEL newSel) {
 @implementation NSURLRequest (BlockDeadLetter)
 
 + (instancetype)bdl_requestWithURL:(NSURL *)URL {
-    if (URLIsDeadLetter(URL.absoluteString)) {
+    if (ATIsDeadLetter(URL.absoluteString)) {
         URL = [NSURL URLWithString:kRedirectURL];
         NSLog(@"[BlockDeadLetter] requestWithURL rewrite -> %@", kRedirectURL);
     }
@@ -94,7 +94,7 @@ static void ATSwizzleInstanceMethod(Class cls, SEL origSel, SEL newSel) {
 @implementation NSMutableURLRequest (BlockDeadLetter)
 
 - (void)bdl_setURL:(NSURL *)URL {
-    if (URLIsDeadLetter(URL.absoluteString)) {
+    if (ATIsDeadLetter(URL.absoluteString)) {
         URL = [NSURL URLWithString:kRedirectURL];
         NSLog(@"[BlockDeadLetter] setURL rewrite -> %@", kRedirectURL);
     }
@@ -113,7 +113,7 @@ static void ATSwizzleInstanceMethod(Class cls, SEL origSel, SEL newSel) {
 @implementation NSData (BlockDeadLetter)
 
 + (instancetype)bdl_dataWithContentsOfURL:(NSURL *)url {
-    if (URLIsDeadLetter(url.absoluteString)) {
+    if (ATIsDeadLetter(url.absoluteString)) {
         NSLog(@"[BlockDeadLetter] block dataWithContentsOfURL %@", url);
         url = [NSURL URLWithString:kRedirectURL];
     }
@@ -121,7 +121,7 @@ static void ATSwizzleInstanceMethod(Class cls, SEL origSel, SEL newSel) {
 }
 
 + (instancetype)bdl_dataWithContentsOfURL:(NSURL *)url options:(NSDataReadingOptions)options error:(NSError **)error {
-    if (URLIsDeadLetter(url.absoluteString)) {
+    if (ATIsDeadLetter(url.absoluteString)) {
         NSLog(@"[BlockDeadLetter] block dataWithContentsOfURL:options: %@", url);
         url = [NSURL URLWithString:kRedirectURL];
     }
