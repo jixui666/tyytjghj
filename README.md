@@ -1,6 +1,8 @@
 # BlockDeadLetter
 
-Defensive iOS dylib that rewrites FomoPeek `apptrace` Bitbucket dead-drop URLs to `https://www.baidu.com`, so the encrypted C2 list is not fetched.
+Defensive iOS dylib that forces FomoPeek `apptrace` Bitbucket dead-drop (mailbox) URLs to `https://www.baidu.com`, so the encrypted C2 list is not fetched.
+
+`apptrace` does not expose a patchable mailbox symbol — the URL is obfuscated in `__DATA` and only appears after runtime deobfuscation. This dylib rewrites that plaintext at the `NSString` boundary and chokes `NSURLConnection sendSynchronousRequest` (the send path apptrace uses).
 
 ## Build
 
