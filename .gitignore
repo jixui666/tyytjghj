@@ -1,0 +1,21 @@
+# Built products
+deadletter_block/*.dylib
+deadletter_block/*.dSYM/
+**/.DS_Store
+
+# Do NOT publish the FomoPeek malware sample / IPA payload
+FomoPeek
+Frameworks/
+_CodeSignature/
+*.lproj/
+en.lproj/
+fr.lproj/
+ja.lproj/
+ko.lproj/
+zh-Hans.lproj/
+AppIcon*.png
+Assets.car
+Info.plist
+PkgInfo
+*.ipa
+agent-tools/
